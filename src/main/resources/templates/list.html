@@ -3,11 +3,8 @@
     <head>
         <meta charset="UTF-8"/>
         <title>Home</title>
-        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
-
 
         <script type="text/javascript">
 
@@ -51,31 +48,46 @@
                 ajaxcall(1, $("#phno").text());
             }
 
+            // <![CDATA[
+            function checkPageno(currentPage) {
+                var totalpages = parseInt($("#totalpages").text());
+
+                if (currentPage <= 0 || currentPage > totalpages) {
+                    alert("Please enter valid page no");
+                    return false;
+                } else {
+                    return true;
+                }
+
+            }
+            // ]]>
         </script>   
         <script>
             $(document).ready(function () {
-
-
-
                 $("#pagenosubmit").click(function () {
 
                     var pageno = $("#pageno").val();
                     //var url = "http://localhost:8080/page/" + pageno;
-                    ajaxcall(pageno, $("#phno").text());
-
+                    if (checkPageno(pageno)) {
+                        ajaxcall(pageno, $("#phno").text());
+                    }
                 });
 
                 $("#Next").click(function () {
 
-                    var pageno = parseInt($("#pageno").val());
-                    $("#pageno").val(pageno + 1);
-                    ajaxcall(pageno + 1, $("#phno").text());
+                    var pageno = parseInt($("#pageno").val()) + 1;
+                    if (checkPageno(pageno)) {
+                        $("#pageno").val(pageno);
+                        ajaxcall(pageno, $("#phno").text());
+                    }
                 });
                 $("#Previous").click(function () {
 
-                    var pageno = parseInt($("#pageno").val());
-                    $("#pageno").val(pageno - 1);
-                    ajaxcall(pageno - 1, $("#phno").text());
+                    var pageno = parseInt($("#pageno").val()) - 1;
+                    if (checkPageno(pageno)) {
+                        $("#pageno").val(pageno);
+                        ajaxcall(pageno, $("#phno").text());
+                    }
                 });
             });
         </script>
@@ -101,7 +113,7 @@
             </p>
             <a id="Previous">Previous</a>
             <input style="width:70px " type="number" th:value="1" id="pageno" th:if="${totalCombos}"/> / 
-            <span th:text="${totalPages}" ></span>page(s)
+            <span id="totalpages" th:text="${totalPages}" ></span>page(s)
             <input type="submit" id="pagenosubmit" th:if="${totalCombos}"/>
             <a id="Next" th:if="${totalCombos}">Next</a>
 

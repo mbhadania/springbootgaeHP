@@ -34,8 +34,6 @@ public class GuestbookController {
         // model.addAttribute("greetings", greetings);
 
         //System.out.println("\n\n\n\n " + thcheck + "\n\n\n\n\n\n\n\n\n\n");
-        
-        
         User user = userService.getCurrentUser();
         if (user != null) {
             String username = user.getEmail();
@@ -48,19 +46,18 @@ public class GuestbookController {
     }
 
     ArrayList<String> letterCombinations = new ArrayList<String>();
-    
+
     @RequestMapping(value = "/", method = RequestMethod.POST)
     String combos(@RequestParam("number") long number, Model model) {
 
         model.addAttribute("number", number);
         Solution solution = new Solution();
-        try{
-         letterCombinations = solution.letterCombinations(number + "");
-        }
-        catch(Exception e){
+        try {
+            letterCombinations = solution.letterCombinations(number + "");
+        } catch (Exception e) {
             System.out.println(e);
         }
-//model.addAttribute("letterCombinations", letterCombinations);
+        //model.addAttribute("letterCombinations", letterCombinations);
         model.addAttribute("totalCombos", letterCombinations.size());
         model.addAttribute("totalPages", letterCombinations.size() / 50 + 1);
         return "list";
@@ -71,7 +68,7 @@ public class GuestbookController {
     @ResponseBody
     OutputService combos1(@RequestParam("number") long number, @PathVariable int no) {
 
-       //System.out.println("\n\n\n\n " + number + "\n\n\n\n\n\n  pathvariable: " + no + "\n\n\n\n");
+        //System.out.println("\n\n\n\n " + number + "\n\n\n\n\n\n  pathvariable: " + no + "\n\n\n\n");
         int pageSize = no * 50;
         //Solution solution = new Solution();
         // check check
@@ -81,7 +78,7 @@ public class GuestbookController {
             pageOutputList.add(letterCombinations.get(i));
         }
 
-      //  for(int i=no*50;i>(no-1)*50;i--){
+        //  for(int i=no*50;i>(no-1)*50;i--){
         //     pageOutputList.add(letterCombinations.get(i));
         // }
         return new OutputService(pageOutputList, letterCombinations.size(), letterCombinations.size() / 50 + 1);
