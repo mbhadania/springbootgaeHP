@@ -1,5 +1,15 @@
 # Spring Boot GAE Blank
 
+# Springboot
+# Spring 4 +
+# Thymeleaf
+# Controller
+# REST controller
+# Login with Google account
+# Finding possible alpha-numeric combination of phone number having 7/10 digits - Local/Domestic US phone number.
+
+
+
 Maven archetype to create a GAE-configured maven project for Spring Boot Application
 
 **Note that this project is not optimized to GAE.**
@@ -49,7 +59,7 @@ modify application name in src/main/webapp/WEB-INF/appengine-web.xml if needed
 
     $ mvm clean appengine:update
 
-Demo site is [here](http://spring-boot-demo.appspot.com/).
+http://appengdemo-1230.appspot.com/
 
 ## License
 
