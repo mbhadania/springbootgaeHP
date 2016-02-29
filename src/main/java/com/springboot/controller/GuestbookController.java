@@ -74,6 +74,7 @@ public class GuestbookController {
        // System.out.println("\n\n\n\n " + number + "\n\n\n\n\n\n  pathvariable: " + no + "\n\n\n\n");
         int pageSize = no * 50;
         //Solution solution = new Solution();
+        // check check
         //model.addAttribute("letterCombinations", letterCombinations);
         ArrayList<String> pageOutputList = new ArrayList<String>();
         for (int i = pageSize - 50; i < pageSize && i < letterCombinations.size(); i++) {
