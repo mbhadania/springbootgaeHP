@@ -3,26 +3,53 @@
     <head>
         <meta charset="UTF-8"/>
         <title>Home</title>
-
+        <!-- jQuery library -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-
+        <style>
+            #header {
+                background-color:black;
+                color:white;
+                text-align:center;
+                padding:5px;
+            }
+            #nav {
+                line-height:30px;
+                background-color:#eeeeee;
+                height:300px;
+                width:100px;
+                float:left;
+                padding:5px; 
+            }
+            #section {
+                width:350px;
+                float:left;
+                padding:10px;
+                text-align: left;
+                padding-left: 100px;
+                font-size: 14px;
+                font-family: sans-serif;
+            }
+            #footer {
+                background-color:black;
+                color:white;
+                clear:both;
+                text-align:center;
+                padding:5px;
+                margin-top: 400px;
+            }
+        </style>
         <script type="text/javascript">
             // <![CDATA[
-            function callcall() {
+            function validatePhoneNumber() {
 
                 var raw_number = $("#number").val();
                 var regex1 = /^[2-9](\d{6}|\d{9})$/
                 if (!regex1.test(raw_number)) {
-                    // $("#subsub").disabled = true;
-                    //invalid
                     alert("Invalid Phone Number. Please enter valid US Local(7 digit)/Domestic(10 Digit) phone number");
                     return false;
                 } else {
-                    //$("#subsub").disabled = false;
-                    //alert("true");
                     return true;
                 }
-
             }
             function ajaxcall(pageno, phoneno) {
                 //var pageno = $("#pageno").val();
@@ -35,13 +62,7 @@
                     },
                     cache: false
                 }).then(function (data) {
-
-                    // alert(data.combination.toString());
-                    //$('.greeting-id').html(data.totalPages);
-                    //$('.greeting-content').html(data.totalCombos);
                     var combos = data.combination.toString();
-
-
                     combos = combos.replace(/,/g, "<br />,");
                     var array = combos.split(',');
                     $('.greeting-combo0').html(array.slice(0, 10));
@@ -49,27 +70,20 @@
                     $('.greeting-combo2').html(array.slice(20, 30));
                     $('.greeting-combo3').html(array.slice(30, 40));
                     $('.greeting-combo4').html(array.slice(40, 50));
-
-                    //$('.greeting-combo').html(data.combination.toString());
                 });
-
             }
             function clickEvent() {
                 //alert("click");
                 ajaxcall(1, $("#phno").text());
             }
-
-
             function checkPageno(currentPage) {
                 var totalpages = parseInt($("#totalpages").text());
-
                 if (currentPage <= 0 || currentPage > totalpages) {
                     alert("Please enter valid page no");
                     return false;
                 } else {
                     return true;
                 }
-
             }
             // ]]>
         </script>   
@@ -83,7 +97,6 @@
                         ajaxcall(pageno, $("#phno").text());
                     }
                 });
-
                 $("#Next").click(function () {
 
                     var pageno = parseInt($("#pageno").val()) + 1;
@@ -104,48 +117,41 @@
         </script>
     </head>
     <body>
-        <h1>HOME</h1>
-        <a th:href="${loginUrl}" th:if="${loginUrl}">Login</a>
-        <a th:href="${logoutUrl}" th:if="${logoutUrl}">Logout</a>
-
-        <form th:action="@{/}" method="post" id="myform" onsubmit="return callcall()">
-
-            <input type="number" id="number" name="number" th:if="${username}" />
-
-            <input type="submit" value="Submit" th:if="${username}"/>
-        </form>
-
-
-
-        <span th:if="${number}">
-
-            <p>Phone Number :<span id="phno" th:text="${number}"></span>
-            </p><p>Total possible alpha-numeric Combination: <span th:text="${totalCombos}"></span>
-            </p>
-            <a id="Previous">Previous</a>
-            <input style="width:70px " type="number" th:value="1" id="pageno" th:if="${totalCombos}"/> / 
-            <span id="totalpages" th:text="${totalPages}" ></span>page(s)
-            <input type="submit" id="pagenosubmit" th:if="${totalCombos}"/>
-            <a id="Next" th:if="${totalCombos}">Next</a>
-
-            <div style="width:450px;overflow:hidden">
-                Combinations:
-                <div style="width: 200px ; height:300px ; left:0px ;position: absolute; word-wrap: break-word  ;border: 0px solid black" class="greeting-combo0"> </div>
-                <div style="width: 200px ; height:300px ; left:200px ;position: absolute; word-wrap: break-word ;border: 0px solid black" class="greeting-combo1"> </div>
-                <div style="width: 200px ; height:300px ; left:400px ;position: absolute; word-wrap: break-word ;border: 0px solid black" class="greeting-combo2"> </div>
-                <div style="width: 200px ; height:300px ; left:600px ;position: absolute; word-wrap: break-word  ;border: 0px solid black" class="greeting-combo3"> </div>
-                <div style="width: 200px ; height:300px ; left:800px ;position: absolute; word-wrap: break-word s ;border: 0px solid black" class="greeting-combo4"> </div>
-
-
-
-            </div>
-            <script>
-                clickEvent();
-            </script>
-        </span>
-
-        <!--span th:text="${letterCombinations}"></span-->
-
-
+        <div id="header">
+            <h1>Alpha-Numeric Combinations</h1>
+        </div>
+        <div id="section">
+            <a th:href="${loginUrl}" th:if="${loginUrl}">Login</a>
+            <a th:href="${logoutUrl}" th:if="${logoutUrl}">Logout</a>
+            <p></p>
+            <form th:action="@{/}" method="post" id="myform" onsubmit="return validatePhoneNumber()">
+                Phone Number:<input type="number" id="number" name="number" th:if="${username}" />
+                <input type="submit" value="Submit" th:if="${username}"/>
+            </form>
+            <span th:if="${number}">
+                <p>Phone Number :<b><span id="phno" th:text="${number}"></span></b>
+                </p><p>Total possible alpha-numeric Combination: <b><span th:text="${totalCombos}"></span></b>
+                </p>
+                <u><a id="Previous" style="cursor: pointer;color: blue;">Previous</a></u>
+                <input style="width:70px " type="number" th:value="1" id="pageno" th:if="${totalCombos}"/> / 
+                <span id="totalpages" th:text="${totalPages}" ></span>page(s)
+                <input type="submit" id="pagenosubmit" th:if="${totalCombos}"/>
+                <u><a id="Next" style="cursor: pointer;color: blue;" th:if="${totalCombos}">Next</a></u>
+                <div style="width:450px;overflow:hidden">
+                    <p>Combinations:</p>
+                    <div style="width: 200px ; height:300px ; left:100px ;position: absolute; word-wrap: break-word  ;border: 0px solid black" class="greeting-combo0"> </div>
+                    <div style="width: 200px ; height:300px ; left:300px ;position: absolute; word-wrap: break-word ;border: 0px solid black" class="greeting-combo1"> </div>
+                    <div style="width: 200px ; height:300px ; left:500px ;position: absolute; word-wrap: break-word ;border: 0px solid black" class="greeting-combo2"> </div>
+                    <div style="width: 200px ; height:300px ; left:700px ;position: absolute; word-wrap: break-word  ;border: 0px solid black" class="greeting-combo3"> </div>
+                    <div style="width: 200px ; height:300px ; left:900px ;position: absolute; word-wrap: break-word s ;border: 0px solid black" class="greeting-combo4"> </div>
+                </div>
+                <script>
+                    clickEvent();
+                </script>
+            </span>
+        </div>
+        <div id="footer">
+            Copyright © http://appengdemo-1230.appspot.com/
+        </div>
     </body>
 </html>
