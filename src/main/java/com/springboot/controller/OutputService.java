@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package com.springboot.controller;
-
 import java.util.ArrayList;
 
 /**
@@ -39,7 +38,5 @@ public class OutputService {
     @Override
     public String toString() {
         return "OutputService{" + "combination=" + combination + ", totalCombos=" + totalCombos + ", totalPages=" + totalPages + '}';
-    }
-
-    
+    } 
 }
