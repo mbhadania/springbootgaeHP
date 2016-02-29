@@ -7,7 +7,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 
         <script type="text/javascript">
-
+            // <![CDATA[
             function callcall() {
 
                 var raw_number = $("#number").val();
@@ -39,7 +39,18 @@
                     // alert(data.combination.toString());
                     //$('.greeting-id').html(data.totalPages);
                     //$('.greeting-content').html(data.totalCombos);
-                    $('.greeting-combo').html(data.combination.toString());
+                    var combos = data.combination.toString();
+
+
+                    combos = combos.replace(/,/g, "<br />,");
+                    var array = combos.split(',');
+                    $('.greeting-combo0').html(array.slice(0, 10));
+                    $('.greeting-combo1').html(array.slice(10, 20));
+                    $('.greeting-combo2').html(array.slice(20, 30));
+                    $('.greeting-combo3').html(array.slice(30, 40));
+                    $('.greeting-combo4').html(array.slice(40, 50));
+
+                    //$('.greeting-combo').html(data.combination.toString());
                 });
 
             }
@@ -48,7 +59,7 @@
                 ajaxcall(1, $("#phno").text());
             }
 
-            // <![CDATA[
+
             function checkPageno(currentPage) {
                 var totalpages = parseInt($("#totalpages").text());
 
@@ -119,7 +130,14 @@
 
             <div style="width:450px;overflow:hidden">
                 Combinations:
-                <div style="width: 600px ; height:300px ; left:0 ;position: absolute; word-wrap: break-word ;overflow:scroll ;border: 1px solid black" class="greeting-combo"> </div>
+                <div style="width: 200px ; height:300px ; left:0px ;position: absolute; word-wrap: break-word  ;border: 0px solid black" class="greeting-combo0"> </div>
+                <div style="width: 200px ; height:300px ; left:200px ;position: absolute; word-wrap: break-word ;border: 0px solid black" class="greeting-combo1"> </div>
+                <div style="width: 200px ; height:300px ; left:400px ;position: absolute; word-wrap: break-word ;border: 0px solid black" class="greeting-combo2"> </div>
+                <div style="width: 200px ; height:300px ; left:600px ;position: absolute; word-wrap: break-word  ;border: 0px solid black" class="greeting-combo3"> </div>
+                <div style="width: 200px ; height:300px ; left:800px ;position: absolute; word-wrap: break-word s ;border: 0px solid black" class="greeting-combo4"> </div>
+
+
+
             </div>
             <script>
                 clickEvent();
