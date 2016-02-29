@@ -6,22 +6,43 @@
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-        
+
         <script>
             $(document).ready(function () {
 
-                $("#phno1").change(function () {
-                    alert("Handler for .change() called.");
+                $("#number").change(function () {
+                    var raw_number = $("#number").text();
+                    var regex1 = /^ [2 - 9](\d{6} | \d{9})$/;
+                    if (!regex1.test(raw_number)) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                    
                 });
+
+                 
+
+
+
                 function callcall() {
 
-                    alert("calcall");
+                    alert("fasfs");
+                    var raw_number = $("#number").text();
+                    var regex1 = /^ [2 - 9](\d{6} | \d{9})$/;
+                    if (!regex1.test(raw_number)) {
+                         $("#subsub").disabled= true;
+                         //invalid
+                    } else {
+                        $("#subsub").disabled= false;
+                    }
+
                 }
 
 
                 function ajaxcall(pageno, phoneno) {
                     //var pageno = $("#pageno").val();
-                    var url = window.location.href+"/page/" + pageno;
+                    var url = window.location.href + "/page/" + pageno;
                     //alert(url);
                     $.ajax({
                         url: url,
@@ -85,9 +106,9 @@
         <a th:href="${loginUrl}" th:if="${loginUrl}">Login</a>
         <a th:href="${logoutUrl}" th:if="${logoutUrl}">Logout</a>
 
-        <form th:action="@{/}" method="post">
+        <form th:action="@{/}" method="post" id="myform" onsubmit="callcall()">
 
-            <input type="number" name="number" th:if="${username}" />
+            <input type="number" id="number" name="number" th:if="${username}" />
 
             <input type="submit" value="Submit" th:if="${username}"/>
         </form>
