@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Greeting</title>
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        
+        <script>
+            $(document).ready(function () {
+
+                $("#phno1").change(function () {
+                    alert("Handler for .change() called.");
+                });
+                function callcall() {
+
+                    alert("calcall");
+                }
+
+
+                function ajaxcall(pageno, phoneno) {
+                    //var pageno = $("#pageno").val();
+                    var url = window.location.href+"/page/" + pageno;
+                    //alert(url);
+                    $.ajax({
+                        url: url,
+                        data: {
+                            number: phoneno
+                        },
+                        cache: false
+                    }).then(function (data) {
+
+                        // alert(data.combination.toString());
+                        //$('.greeting-id').html(data.totalPages);
+                        //$('.greeting-content').html(data.totalCombos);
+                        $('.greeting-combo').html(data.combination.toString());
+                    });
+
+                }
+
+
+
+                $("#pagenosubmit").click(function () {
+
+                    var pageno = $("#pageno").val();
+                    //var url = "http://localhost:8080/page/" + pageno;
+                    ajaxcall(pageno, $("#phno").text());
+
+                    //alert(url);
+                    /*
+                     $.ajax({
+                     url: url,
+                     data: {
+                     number: $("#phno").text()
+                     },
+                     cache: false
+                     }).then(function (data) {
+                     
+                     // alert(data.combination.toString());
+                     $('.greeting-id').html(data.totalPages);
+                     $('.greeting-content').html(data.totalCombos);
+                     $('.greeting-combo').html(data.combination.toString());
+                     });
+                     */
+                });
+
+                $("#Next").click(function () {
+
+                    var pageno = parseInt($("#pageno").val());
+                    $("#pageno").val(pageno + 1);
+                    ajaxcall(pageno + 1, $("#phno").text());
+                });
+                $("#Previous").click(function () {
+
+                    var pageno = parseInt($("#pageno").val());
+                    $("#pageno").val(pageno - 1);
+                    ajaxcall(pageno - 1, $("#phno").text());
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <h1>HOME</h1>
+        <a th:href="${loginUrl}" th:if="${loginUrl}">Login</a>
+        <a th:href="${logoutUrl}" th:if="${logoutUrl}">Logout</a>
+
+        <form th:action="@{/}" method="post">
+
+            <input type="number" name="number" th:if="${username}" />
+
+            <input type="submit" value="Submit" th:if="${username}"/>
+        </form>
+        <ul>
+            <li th:each="greeting : ${greetings}">
+                <span th:text="${greeting.getProperty('name')}">name</span> :
+                <span th:text="${greeting.getProperty('content')}">content</span> :l
+                <span th:text="${greeting.getProperty('date')}">content</span>
+            </li>
+        </ul>
+
+        <span th:if="${number}">
+
+            <p>Phone Number :<span id="phno" th:text="${number}" ></span>
+            </p><p>   Total possible alpha-numeric Combination: <span th:text="${totalCombos}"></span>
+            </p>
+            <a id="Previous" th:if="${totalCombos}">Previous</a>
+            <input style="width:100px " type="number" th:value="1" id="pageno" th:if="${totalCombos}"/> / 
+            <span th:text="${totalPages}" ></span>page(s)
+            <input type="submit" id="pagenosubmit" th:if="${totalCombos}"/>
+            <a id="Next" th:if="${totalCombos}">Next</a>
+
+            <p>
+            <div style="width:450px;overflow:hidden">
+                Combinations:
+                <div style="width: 600px ; height:300px ; left:0 ;position: absolute; word-wrap: break-word ;overflow:scroll ;border: 1px solid black" class="greeting-combo"> </div>
+            </div>
+        </p>
+    </span>
+
+
+
+
+
+
+
+    <!--span th:text="${letterCombinations}"></span-->
+
+
+</body>
+</html>
