@@ -71,7 +71,7 @@ public class GuestbookController {
     @ResponseBody
     OutputService combos1(@RequestParam("number") long number, @PathVariable int no) {
 
-       // System.out.println("\n\n\n\n " + number + "\n\n\n\n\n\n  pathvariable: " + no + "\n\n\n\n");
+       //System.out.println("\n\n\n\n " + number + "\n\n\n\n\n\n  pathvariable: " + no + "\n\n\n\n");
         int pageSize = no * 50;
         //Solution solution = new Solution();
         // check check

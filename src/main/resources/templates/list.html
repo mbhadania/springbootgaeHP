@@ -10,15 +10,15 @@
 
 
         <script type="text/javascript">
+
             function callcall() {
-                
+
                 var raw_number = $("#number").val();
-                alert(raw_number);
                 var regex1 = /^[2-9](\d{6}|\d{9})$/
                 if (!regex1.test(raw_number)) {
-                   // $("#subsub").disabled = true;
+                    // $("#subsub").disabled = true;
                     //invalid
-                    //alert("false");
+                    alert("Invalid Phone Number. Please enter valid US Local(7 digit)/Domestic(10 Digit) phone number");
                     return false;
                 } else {
                     //$("#subsub").disabled = false;
@@ -27,40 +27,33 @@
                 }
 
             }
+            function ajaxcall(pageno, phoneno) {
+                //var pageno = $("#pageno").val();
+                var url = window.location.href + "/page/" + pageno;
+                //alert(url);
+                $.ajax({
+                    url: url,
+                    data: {
+                        number: phoneno
+                    },
+                    cache: false
+                }).then(function (data) {
+
+                    // alert(data.combination.toString());
+                    //$('.greeting-id').html(data.totalPages);
+                    //$('.greeting-content').html(data.totalCombos);
+                    $('.greeting-combo').html(data.combination.toString());
+                });
+
+            }
+            function clickEvent() {
+                //alert("click");
+                ajaxcall(1, $("#phno").text());
+            }
 
         </script>   
         <script>
             $(document).ready(function () {
-                $("#number").change(function () {
-                    
-                    var raw_number = $("#number").text();
-                    var regex1 = /^ [2 - 9](\d{6} | \d{9})$/;
-                    if (!regex1.test(raw_number)) {
-                        return false;
-                    } else {
-                        return true;
-                    }
-
-                });
-                function ajaxcall(pageno, phoneno) {
-                    //var pageno = $("#pageno").val();
-                    var url = window.location.href + "/page/" + pageno;
-                    //alert(url);
-                    $.ajax({
-                        url: url,
-                        data: {
-                            number: phoneno
-                        },
-                        cache: false
-                    }).then(function (data) {
-
-                        // alert(data.combination.toString());
-                        //$('.greeting-id').html(data.totalPages);
-                        //$('.greeting-content').html(data.totalCombos);
-                        $('.greeting-combo').html(data.combination.toString());
-                    });
-
-                }
 
 
 
@@ -70,22 +63,6 @@
                     //var url = "http://localhost:8080/page/" + pageno;
                     ajaxcall(pageno, $("#phno").text());
 
-                    //alert(url);
-                    /*
-                     $.ajax({
-                     url: url,
-                     data: {
-                     number: $("#phno").text()
-                     },
-                     cache: false
-                     }).then(function (data) {
-             
-                     // alert(data.combination.toString());
-                     $('.greeting-id').html(data.totalPages);
-                     $('.greeting-content').html(data.totalCombos);
-                     $('.greeting-combo').html(data.combination.toString());
-                     });
-                     */
                 });
 
                 $("#Next").click(function () {
@@ -116,33 +93,29 @@
         </form>
 
 
+
         <span th:if="${number}">
 
-            <p>Phone Number :<span id="phno" th:text="${number}" onload="callcall()"></span>
-            </p><p>   Total possible alpha-numeric Combination: <span th:text="${totalCombos}"></span>
+            <p>Phone Number :<span id="phno" th:text="${number}"></span>
+            </p><p>Total possible alpha-numeric Combination: <span th:text="${totalCombos}"></span>
             </p>
-            <a id="Previous" th:if="${totalCombos}">Previous</a>
-            <input style="width:100px " type="number" th:value="1" id="pageno" th:if="${totalCombos}"/> / 
+            <a id="Previous">Previous</a>
+            <input style="width:70px " type="number" th:value="1" id="pageno" th:if="${totalCombos}"/> / 
             <span th:text="${totalPages}" ></span>page(s)
             <input type="submit" id="pagenosubmit" th:if="${totalCombos}"/>
             <a id="Next" th:if="${totalCombos}">Next</a>
 
-            <p>
             <div style="width:450px;overflow:hidden">
                 Combinations:
                 <div style="width: 600px ; height:300px ; left:0 ;position: absolute; word-wrap: break-word ;overflow:scroll ;border: 1px solid black" class="greeting-combo"> </div>
             </div>
-        </p>
-    </span>
+            <script>
+                clickEvent();
+            </script>
+        </span>
+
+        <!--span th:text="${letterCombinations}"></span-->
 
 
-
-
-
-
-
-    <!--span th:text="${letterCombinations}"></span-->
-
-
-</body>
+    </body>
 </html>
